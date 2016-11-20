@@ -1,21 +1,25 @@
 package computer.games.user;
 
+import computer.games.order.CustomOrder;
+
 import javax.annotation.Generated;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ivan on 22.10.2016.
  */
+@Entity
+@Table(name = "users")
 public class CustomUser implements Serializable{
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String username;
 
     @Column(name = "first_name")
@@ -29,6 +33,9 @@ public class CustomUser implements Serializable{
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(targetEntity = CustomUser.class, cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<CustomOrder> orders = new HashSet<>();
 
     public CustomUser() {
 
@@ -88,5 +95,13 @@ public class CustomUser implements Serializable{
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<CustomOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<CustomOrder> orders) {
+        this.orders = orders;
     }
 }
