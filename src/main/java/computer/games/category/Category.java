@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "categories")
 public class Category implements Serializable {
 
-    public enum GameCategory {
+    public enum Type {
         ACTION,
         RACE,
         SIMULATOR,
@@ -26,9 +26,9 @@ public class Category implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "game_category")
-    private GameCategory gameCategory;
+    private Type gameCategory;
 
     @ManyToMany(targetEntity = Game.class)
     private Set<Game> games = new HashSet<>();
@@ -37,7 +37,7 @@ public class Category implements Serializable {
 
     }
 
-    public Category(Long id, GameCategory gameCategory) {
+    public Category(Long id, Type gameCategory) {
         this.id = id;
         this.gameCategory = gameCategory;
     }
@@ -50,11 +50,11 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public GameCategory getGameCategory() {
+    public Type getGameCategory() {
         return gameCategory;
     }
 
-    public void setGameCategory(GameCategory gameCategory) {
+    public void setGameCategory(Type gameCategory) {
         this.gameCategory = gameCategory;
     }
 
