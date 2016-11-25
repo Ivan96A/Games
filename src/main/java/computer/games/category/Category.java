@@ -16,27 +16,17 @@ import java.util.Set;
 public class Category implements Serializable {
 
     public enum GameCategory {
-        ACTION("ACTION"),
-        RACE("RACE"),
-        SIMULATOR("SIMULATOR"),
-        FIGHTS("FIGHTS");
-
-        private final String gameCategory;
-
-        GameCategory(String gameCategory) {
-            this.gameCategory = gameCategory;
-        }
-
-        @Override
-        public String toString() {
-            return gameCategory;
-        }
+        ACTION,
+        RACE,
+        SIMULATOR,
+        FIGHTS
     }
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "game_category")
     private GameCategory gameCategory;
 
