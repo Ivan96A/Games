@@ -31,7 +31,7 @@ public class SystemRequirements implements Serializable {
     private Long HDD;
 
     @ManyToOne
-    @JoinColumn(name = "gamesId", nullable = false)
+    @JoinColumn(name = "games_id", nullable = false)
     private Game game;
 
     public SystemRequirements() {
@@ -91,5 +91,45 @@ public class SystemRequirements implements Serializable {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SystemRequirements that = (SystemRequirements) o;
+
+        if (!getId().equals(that.getId())) return false;
+        if (getProcessor() != null ? !getProcessor().equals(that.getProcessor()) : that.getProcessor() != null)
+            return false;
+        if (getRAM() != null ? !getRAM().equals(that.getRAM()) : that.getRAM() != null) return false;
+        if (getVideo() != null ? !getVideo().equals(that.getVideo()) : that.getVideo() != null) return false;
+        if (getHDD() != null ? !getHDD().equals(that.getHDD()) : that.getHDD() != null) return false;
+        return getGame() != null ? getGame().equals(that.getGame()) : that.getGame() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getProcessor() != null ? getProcessor().hashCode() : 0);
+        result = 31 * result + (getRAM() != null ? getRAM().hashCode() : 0);
+        result = 31 * result + (getVideo() != null ? getVideo().hashCode() : 0);
+        result = 31 * result + (getHDD() != null ? getHDD().hashCode() : 0);
+        result = 31 * result + (getGame() != null ? getGame().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SystemRequirements{" +
+                "id=" + id +
+                ", processor='" + processor + '\'' +
+                ", RAM='" + RAM + '\'' +
+                ", video='" + video + '\'' +
+                ", HDD=" + HDD +
+                ", game=" + game +
+                '}';
     }
 }

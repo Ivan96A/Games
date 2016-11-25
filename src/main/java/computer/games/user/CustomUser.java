@@ -1,8 +1,7 @@
 package computer.games.user;
 
-import computer.games.order.CustomOrder;
+import computer.games.order.Order;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -34,8 +33,8 @@ public class CustomUser implements Serializable{
     @Column(name = "role")
     private String role;
 
-    @OneToMany(targetEntity = CustomUser.class, cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<CustomOrder> orders = new HashSet<>();
+    @OneToMany(targetEntity = Order.class, cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Order> orders = new HashSet<>();
 
     public CustomUser() {
 
@@ -97,11 +96,57 @@ public class CustomUser implements Serializable{
         this.role = role;
     }
 
-    public Set<CustomOrder> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<CustomOrder> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomUser that = (CustomUser) o;
+
+        if (!getId().equals(that.getId())) return false;
+        if (getUsername() != null ? !getUsername().equals(that.getUsername()) : that.getUsername() != null)
+            return false;
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+            return false;
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
+            return false;
+        if (getPassword() != null ? !getPassword().equals(that.getPassword()) : that.getPassword() != null)
+            return false;
+        if (getRole() != null ? !getRole().equals(that.getRole()) : that.getRole() != null) return false;
+        return getOrders() != null ? getOrders().equals(that.getOrders()) : that.getOrders() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", orders=" + orders +
+                '}';
     }
 }

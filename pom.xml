@@ -7,6 +7,7 @@
     <groupId>games</groupId>
     <artifactId>computer-games</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -206,7 +207,6 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.6.6</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.testng</groupId>

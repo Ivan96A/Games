@@ -76,4 +76,33 @@ public class Category implements Serializable {
         this.games = games;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (!getId().equals(category.getId())) return false;
+        if (getGameCategory() != category.getGameCategory()) return false;
+        return getGames() != null ? getGames().equals(category.getGames()) : category.getGames() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getGameCategory() != null ? getGameCategory().hashCode() : 0);
+        result = 31 * result + (getGames() != null ? getGames().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", gameCategory=" + gameCategory +
+                ", games=" + games +
+                '}';
+    }
 }

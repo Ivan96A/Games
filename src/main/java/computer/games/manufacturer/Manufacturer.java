@@ -80,4 +80,41 @@ public class Manufacturer implements Serializable {
     public void setGames(Set<Game> games) {
         this.games = games;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Manufacturer that = (Manufacturer) o;
+
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getYear() != null ? !getYear().equals(that.getYear()) : that.getYear() != null) return false;
+        if (getNumberOfEmployees() != null ? !getNumberOfEmployees().equals(that.getNumberOfEmployees()) : that.getNumberOfEmployees() != null)
+            return false;
+        return getGames() != null ? getGames().equals(that.getGames()) : that.getGames() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getYear() != null ? getYear().hashCode() : 0);
+        result = 31 * result + (getNumberOfEmployees() != null ? getNumberOfEmployees().hashCode() : 0);
+        result = 31 * result + (getGames() != null ? getGames().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Manufacturer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", year=" + year +
+                ", numberOfEmployees=" + numberOfEmployees +
+                ", games=" + games +
+                '}';
+    }
 }
