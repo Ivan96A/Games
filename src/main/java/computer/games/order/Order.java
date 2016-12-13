@@ -1,6 +1,6 @@
 package computer.games.order;
 
-import computer.games.game.Game;
+import computer.games.game.domain.Game;
 import computer.games.user.CustomUser;
 
 import javax.persistence.*;

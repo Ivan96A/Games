@@ -1,6 +1,7 @@
 package computer.games.manufacturer;
 
-import computer.games.game.Game;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import computer.games.game.domain.Game;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class Manufacturer implements Serializable {
     @Column(name = "number_of_employees")
     private Long numberOfEmployees;
 
+    @JsonIgnore
     @OneToMany(targetEntity = Game.class, cascade = CascadeType.ALL, mappedBy = "manufacturer")
     private Set<Game> games = new HashSet<>();
 
