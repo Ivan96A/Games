@@ -15,6 +15,11 @@
                 url: 'catalog',
                 controller: 'GamesCtrl',
                 templateUrl: 'app/game/game.view.html'
+            })
+            .state('main.game',{
+                url: 'game/:gameId',
+                controller: 'GameEditCtrl',
+                templateUrl: 'app/game/profile/game.profile.html'
             });
 
     }

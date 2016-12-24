@@ -15,5 +15,6 @@ target/
 hs_err_pid*
 
 src/main/webapp/bower_components
+src/main/webapp/app/images
 node_modules
 npm-debug.log

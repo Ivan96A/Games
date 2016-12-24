@@ -9,6 +9,10 @@
 
 			this.getAll = function() {
 				return $http.get(urlBase);
+			};
+
+			this.getById = function(id) {
+				return $http.get(urlBase + '/' + id)
 			}
 
 		});

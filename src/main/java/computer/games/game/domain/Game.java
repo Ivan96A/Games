@@ -53,6 +53,8 @@ public class Game  implements Serializable {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "image")
+    private String image;
 
     @JsonIgnore
     @ManyToMany(targetEntity = Order.class)
@@ -63,11 +65,13 @@ public class Game  implements Serializable {
     @JoinColumn(name = "manufacturers_id", nullable = false)
     private Manufacturer manufacturer;
 
+
+
     public Game() {
 
     }
 
-    public Game(String name, Long year, String processor, String RAM, String video, Long HDD, Type gameCategory, Set<Order> orders, int price, Manufacturer manufacturer) {
+    public Game(String name, Long year, String processor, String RAM, String video, Long HDD, Type gameCategory, int price, String image, Set<Order> orders, Manufacturer manufacturer) {
         this.name = name;
         this.year = year;
         this.processor = processor;
@@ -75,8 +79,9 @@ public class Game  implements Serializable {
         this.video = video;
         this.HDD = HDD;
         this.gameCategory = gameCategory;
-        this.orders = orders;
         this.price = price;
+        this.image = image;
+        this.orders = orders;
         this.manufacturer = manufacturer;
     }
 
@@ -152,6 +157,14 @@ public class Game  implements Serializable {
         this.price = price;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Set<Order> getOrders() {
         return orders;
     }
@@ -185,6 +198,7 @@ public class Game  implements Serializable {
         if (getVideo() != null ? !getVideo().equals(game.getVideo()) : game.getVideo() != null) return false;
         if (getHDD() != null ? !getHDD().equals(game.getHDD()) : game.getHDD() != null) return false;
         if (getGameCategory() != game.getGameCategory()) return false;
+        if (getImage() != null ? !getImage().equals(game.getImage()) : game.getImage() != null) return false;
         if (getOrders() != null ? !getOrders().equals(game.getOrders()) : game.getOrders() != null) return false;
         return getManufacturer() != null ? getManufacturer().equals(game.getManufacturer()) : game.getManufacturer() == null;
 
@@ -201,6 +215,7 @@ public class Game  implements Serializable {
         result = 31 * result + (getHDD() != null ? getHDD().hashCode() : 0);
         result = 31 * result + (getGameCategory() != null ? getGameCategory().hashCode() : 0);
         result = 31 * result + getPrice();
+        result = 31 * result + (getImage() != null ? getImage().hashCode() : 0);
         result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
         result = 31 * result + (getManufacturer() != null ? getManufacturer().hashCode() : 0);
         return result;
@@ -218,6 +233,8 @@ public class Game  implements Serializable {
                 ", HDD=" + HDD +
                 ", gameCategory=" + gameCategory +
                 ", price=" + price +
+                ", image='" + image + '\'' +
+                ", orders=" + orders +
                 ", manufacturer=" + manufacturer +
                 '}';
     }
