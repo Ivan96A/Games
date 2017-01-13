@@ -4,7 +4,7 @@
     angular
         .module('main', [
             'games',
-            //'news',
+            'register',
             'ui.router',
             'ui.bootstrap',
             'ngCookies',

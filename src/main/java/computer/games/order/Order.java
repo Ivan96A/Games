@@ -1,7 +1,7 @@
 package computer.games.order;
 
 import computer.games.game.domain.Game;
-import computer.games.user.CustomUser;
+import computer.games.user.domain.CustomUser;
 
 import javax.persistence.*;
 import java.io.Serializable;

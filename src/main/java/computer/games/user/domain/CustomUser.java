@@ -1,4 +1,4 @@
-package computer.games.user;
+package computer.games.user.domain;
 
 import computer.games.order.Order;
 
@@ -40,12 +40,11 @@ public class CustomUser implements Serializable{
 
     }
 
-    public CustomUser(String username, String firstName, String lastName, String password, String role) {
+    public CustomUser(String username, String firstName, String lastName, String password) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
-        this.role = role;
+        this.password = password; 
     }
 
     public Long getId() {
@@ -104,38 +103,7 @@ public class CustomUser implements Serializable{
         this.orders = orders;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        CustomUser that = (CustomUser) o;
-
-        if (!getId().equals(that.getId())) return false;
-        if (getUsername() != null ? !getUsername().equals(that.getUsername()) : that.getUsername() != null)
-            return false;
-        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
-            return false;
-        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
-            return false;
-        if (getPassword() != null ? !getPassword().equals(that.getPassword()) : that.getPassword() != null)
-            return false;
-        if (getRole() != null ? !getRole().equals(that.getRole()) : that.getRole() != null) return false;
-        return getOrders() != null ? getOrders().equals(that.getOrders()) : that.getOrders() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
-        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
-        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
-        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
-        return result;
-    }
 
     @Override
     public String toString() {
