@@ -1,5 +1,6 @@
 package computer.games.user.controller;
 
+import computer.games.dto.AuthUser;
 import computer.games.dto.AuthUserDTO;
 import computer.games.user.domain.CustomUser;
 import computer.games.user.service.UserService;
@@ -22,8 +23,8 @@ public class UserController {
 
     @RequestMapping(value = "/public/login",
            method = RequestMethod.POST)
-    public AuthUserDTO login(@RequestParam String username, @RequestParam String password) {
-        return userService.authenticateUser(username, password);
+    public AuthUserDTO login(@RequestBody AuthUser authUser) {
+        return userService.authenticateUser(authUser);
     }
 
     @RequestMapping(value = "/public/register",

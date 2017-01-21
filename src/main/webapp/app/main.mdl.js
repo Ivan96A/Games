@@ -5,6 +5,7 @@
         .module('main', [
             'games',
             'register',
+            'login',
             'ui.router',
             'ui.bootstrap',
             'ngCookies',
@@ -49,8 +50,24 @@
 
     run.$inject = ['$rootScope', '$cookieStore', '$state', '$translate', '$http', 'crAcl'];
     function run($rootScope, $cookieStore, $state, $translate, $http,  crAcl) {
-        // keep user logged in after page refresh
 
+        $rootScope.globals = $cookieStore.get('globals') || {};
+
+        crAcl.setInheritanceRoles({
+            "ROLE_ADMIN": ["ROLE_ADMIN"],
+            "ROLE_USER": ["ROLE_ADMIN"], 
+            "ROLE_GUEST": ["ROLE_GUEST"]
+        });
+
+        crAcl.setRedirect('main.home');
+
+        if($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata.id;
+            crAcl.setRole($rootScope.currentUser.role);
+        } else {
+            crAcl.setRole("ROLE_GUEST");
+        }
+        
     }
 
 })();

@@ -7,10 +7,6 @@ public class AuthUserDTO {
 
     private String firstName;
 
-    private String lastName;
-
-    private String password;
-
     private String username;
 
     private String role;
@@ -21,10 +17,8 @@ public class AuthUserDTO {
 
     }
 
-    public AuthUserDTO(String firstName, String lastName, String password, String username, String role, String massage) {
+    public AuthUserDTO(String firstName, String username, String role, String massage) {
         this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
         this.username = username;
         this.role = role;
         this.massage = massage;
@@ -36,22 +30,6 @@ public class AuthUserDTO {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getUsername() {
@@ -87,10 +65,6 @@ public class AuthUserDTO {
 
         if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
             return false;
-        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
-            return false;
-        if (getPassword() != null ? !getPassword().equals(that.getPassword()) : that.getPassword() != null)
-            return false;
         if (getUsername() != null ? !getUsername().equals(that.getUsername()) : that.getUsername() != null)
             return false;
         if (getRole() != null ? !getRole().equals(that.getRole()) : that.getRole() != null) return false;
@@ -101,8 +75,6 @@ public class AuthUserDTO {
     @Override
     public int hashCode() {
         int result = getFirstName() != null ? getFirstName().hashCode() : 0;
-        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
         result = 31 * result + (getMassage() != null ? getMassage().hashCode() : 0);
@@ -113,13 +85,9 @@ public class AuthUserDTO {
     public String toString() {
         return "AuthUserDTO{" +
                 "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", role='" + role + '\'' +
                 ", massage='" + massage + '\'' +
                 '}';
     }
 }
-
-

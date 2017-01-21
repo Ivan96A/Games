@@ -19,18 +19,19 @@ public class AuthUserDTOServiceImpl implements AuthUserDTOService {
 
     @Override
     public AuthUserDTO transformAuthenticationToAuthUserDTO(Authentication authentication) {
+        System.out.println(" dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
         if (authentication == null) {
-            return new AuthUserDTO(null, null, null, null, null, "Failed to obtain authentication"); }
+            return new AuthUserDTO(null, null, null, "null хз)"); }
 
         Object principal = authentication.getPrincipal();
 
         UserDetails userDetails = (UserDetails) principal;
+        System.out.println(userDetails.getUsername() + " dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
         CustomUser user = userRepository.findByUsername(userDetails.getUsername());
 
 
-        return new AuthUserDTO(user.getFirstName(), user.getLastName(), user.getPassword(), user.getUsername(), user.getRole(),
-                "Success");
+        return new AuthUserDTO(user.getFirstName(),  user.getUsername(), user.getRole(), "success");
     }
 }

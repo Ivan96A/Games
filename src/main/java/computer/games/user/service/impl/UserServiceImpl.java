@@ -1,21 +1,19 @@
 package computer.games.user.service.impl;
 
+import computer.games.dto.AuthUser;
 import computer.games.dto.AuthUserDTO;
 import computer.games.dto.AuthUserDTOService;
 import computer.games.user.domain.CustomUser;
 import computer.games.user.repository.UserRepository;
 import computer.games.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 
 /**
  * Created by Ivan on 28.12.2016.
@@ -24,16 +22,25 @@ import java.util.Collection;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    //@Autowired
+     AuthenticationManager authenticationManager = new AuthenticationManager() {
+        @Override
+        public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
+            String username = (String) authentication.getPrincipal();
+            String password = (String) authentication.getCredentials();
+
+            return new UsernamePasswordAuthenticationToken(username, password);
+        }
+    };
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private PasswordEncoder passwordEncoder;
 
    // @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-   // @Autowired
-    AuthUserDTOService authUserDTOService;
+    private AuthUserDTOService authUserDTOService;
 
     @Override
     public CustomUser findOneByUsername(String username) {
@@ -42,26 +49,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(CustomUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         user.setOrders(null);
         userRepository.save(user);
     }
 
     @Override
-    public AuthUserDTO authenticateUser(String username, String password) {
+    public AuthUserDTO authenticateUser(AuthUser authUser) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new
-                UsernamePasswordAuthenticationToken(username.trim(), password);
+                UsernamePasswordAuthenticationToken(authUser.getUsername().trim(), authUser.getPassword());
 
-        Authentication authentication = null;
-
+    Authentication authentication;
 
         try{
             authentication = this.authenticationManager.authenticate(authenticationToken);
-        } catch (DisabledException e) {
 
-        }
+        } catch (DisabledException e) {
+            return new AuthUserDTO(null, null, null, "Disable");
+
+        } catch (BadCredentialsException e) {
+            return new AuthUserDTO(null, null, null, "BadCredentials");
+
+
+        }catch (AccountExpiredException e) {
+            return new AuthUserDTO(null, null, null, "AccountExpired");
+
+
+        }catch (AuthenticationException e) {
+            return new AuthUserDTO(null, null, null, "AuthenticationException");
+        }/* catch (Exception e) {
+            return new AuthUserDTO(null, null, null, "Exception");
+        }*/
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

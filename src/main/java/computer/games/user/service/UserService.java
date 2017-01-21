@@ -1,5 +1,6 @@
 package computer.games.user.service;
 
+import computer.games.dto.AuthUser;
 import computer.games.dto.AuthUserDTO;
 import computer.games.user.domain.CustomUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,8 +14,6 @@ public interface UserService {
 
     void save(CustomUser user);
 
-    AuthUserDTO authenticateUser(String username, String password);
-
-
+    AuthUserDTO authenticateUser(AuthUser authUser);
 
 }
