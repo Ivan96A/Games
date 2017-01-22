@@ -3,17 +3,16 @@ package computer.games.dto;
 /**
  * Created by Ivan on 14.01.2017.
  */
-public class AuthUser {
+public class LoginUserDTO {
 
     private String username;
 
     private String password;
 
-    public AuthUser() {
-
+    public LoginUserDTO() {
     }
 
-    public AuthUser(String username, String password) {
+    public LoginUserDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -39,11 +38,11 @@ public class AuthUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AuthUser authUser = (AuthUser) o;
+        LoginUserDTO loginUserDTO = (LoginUserDTO) o;
 
-        if (getUsername() != null ? !getUsername().equals(authUser.getUsername()) : authUser.getUsername() != null)
+        if (getUsername() != null ? !getUsername().equals(loginUserDTO.getUsername()) : loginUserDTO.getUsername() != null)
             return false;
-        return getPassword() != null ? getPassword().equals(authUser.getPassword()) : authUser.getPassword() == null;
+        return getPassword() != null ? getPassword().equals(loginUserDTO.getPassword()) : loginUserDTO.getPassword() == null;
 
     }
 

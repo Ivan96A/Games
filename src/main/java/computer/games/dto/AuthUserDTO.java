@@ -1,5 +1,7 @@
 package computer.games.dto;
 
+import java.util.Map;
+
 /**
  * Created by Ivan on 05.01.2017.
  */
@@ -9,7 +11,7 @@ public class AuthUserDTO {
 
     private String username;
 
-    private String role;
+    private Map<String, Boolean> roles;
 
     private String massage;
 
@@ -17,10 +19,10 @@ public class AuthUserDTO {
 
     }
 
-    public AuthUserDTO(String firstName, String username, String role, String massage) {
+    public AuthUserDTO(String firstName, String username, Map<String, Boolean> roleMap, String massage) {
         this.firstName = firstName;
         this.username = username;
-        this.role = role;
+        this.roles = roleMap;
         this.massage = massage;
     }
 
@@ -40,13 +42,6 @@ public class AuthUserDTO {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getMassage() {
         return massage;
@@ -56,6 +51,14 @@ public class AuthUserDTO {
         this.massage = massage;
     }
 
+    public Map<String, Boolean> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Map<String, Boolean> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,21 +66,18 @@ public class AuthUserDTO {
 
         AuthUserDTO that = (AuthUserDTO) o;
 
-        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
-            return false;
-        if (getUsername() != null ? !getUsername().equals(that.getUsername()) : that.getUsername() != null)
-            return false;
-        if (getRole() != null ? !getRole().equals(that.getRole()) : that.getRole() != null) return false;
-        return getMassage() != null ? getMassage().equals(that.getMassage()) : that.getMassage() == null;
-
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+        return massage != null ? massage.equals(that.massage) : that.massage == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getFirstName() != null ? getFirstName().hashCode() : 0;
-        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
-        result = 31 * result + (getMassage() != null ? getMassage().hashCode() : 0);
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (massage != null ? massage.hashCode() : 0);
         return result;
     }
 
@@ -86,7 +86,7 @@ public class AuthUserDTO {
         return "AuthUserDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
+                ", roles=" + roles +
                 ", massage='" + massage + '\'' +
                 '}';
     }
