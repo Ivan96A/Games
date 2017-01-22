@@ -7,18 +7,18 @@ import computer.games.user.domain.CustomUser;
 import computer.games.user.repository.UserRepository;
 import computer.games.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 
 /**
  * Created by Ivan on 28.12.2016.
  */
-@Component("userService")
+
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -39,7 +39,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-   // @Autowired
+    @Autowired
+    @Qualifier("authService")
     private AuthUserDTOService authUserDTOService;
 
     @Override
@@ -79,9 +80,7 @@ public class UserServiceImpl implements UserService {
 
         }catch (AuthenticationException e) {
             return new AuthUserDTO(null, null, null, "AuthenticationException");
-        }/* catch (Exception e) {
-            return new AuthUserDTO(null, null, null, "Exception");
-        }*/
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
