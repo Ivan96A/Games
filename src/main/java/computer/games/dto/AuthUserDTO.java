@@ -1,5 +1,7 @@
 package computer.games.dto;
 
+import java.util.Map;
+
 /**
  * Created by Ivan on 05.01.2017.
  */
@@ -40,13 +42,6 @@ public class AuthUserDTO {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getMassage() {
         return massage;
@@ -54,6 +49,14 @@ public class AuthUserDTO {
 
     public void setMassage(String massage) {
         this.massage = massage;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -90,4 +93,5 @@ public class AuthUserDTO {
                 ", massage='" + massage + '\'' +
                 '}';
     }
+
 }

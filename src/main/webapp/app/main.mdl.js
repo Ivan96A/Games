@@ -3,9 +3,9 @@
 
     angular
         .module('main', [
+            'home',
             'games',
             'register',
-            'login',
             'ui.router',
             'ui.bootstrap',
             'ngCookies',
@@ -16,7 +16,7 @@
             'naif.base64',
             'pascalprecht.translate',
             'cr.acl',
-            'textAngular'
+            'textAngular',
         ])
         .config(configure)
         .run(run);
@@ -24,6 +24,7 @@
     configure.$inject = ['$stateProvider', '$urlRouterProvider', '$translateProvider'];
     function configure($stateProvider, $urlRouterProvider, $translateProvider) {
 
+      
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get("$state");
             $state.go('main.home');
@@ -35,13 +36,10 @@
                 abstract: true,
                 templateUrl: 'app/main.view.html'
             })
-            .state('main.home', {
-            url: 'home',
-            views: {
-                '': {
-                    templateUrl: '/app/home/home.view.html'
-                }
-            }
+            .state('login', {
+            url: '/login',
+            controller: 'LoginCtrl',
+            templateUrl: 'app/login/login.view.html'
         });
             
         
@@ -55,7 +53,7 @@
 
         crAcl.setInheritanceRoles({
             "ROLE_ADMIN": ["ROLE_ADMIN"],
-            "ROLE_USER": ["ROLE_ADMIN"], 
+            "ROLE_USER": ["ROLE_USER"], 
             "ROLE_GUEST": ["ROLE_GUEST"]
         });
 
@@ -63,7 +61,7 @@
 
         if($rootScope.globals.currentUser) {
             $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata.id;
-            crAcl.setRole($rootScope.currentUser.role);
+            crAcl.setRole($rootScope.globals.currentUser.role);
         } else {
             crAcl.setRole("ROLE_GUEST");
         }

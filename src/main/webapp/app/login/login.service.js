@@ -7,7 +7,7 @@
 
 			this.login = function(user) {
 				return $http.post('user/public/login', user);
-			}
+			};
 
 		});
 
@@ -17,7 +17,9 @@
     .factory('CredentialsService',
     function (Base64, $http, $cookieStore, $rootScope) {
         var service = {};
- 
+        var role= new Map();
+
+            //var role = {key: value};
         service.SetCredentials = function (firstName, username, role) {
             var authdata = Base64.encode(username + ':' + password);
  

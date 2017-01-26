@@ -15,9 +15,19 @@
 		sc.login = function (user) {
 				LoginService.login(user)
 					.then(function successCallback(response) {
-						CredentialsService.SetCredentials(response.data.id, user.username, user.password, response.data.role);
+						CredentialsService.SetCredentials(response.data.firstName, response.data.username, response.data.role);
 						crAcl.setRole(response.data.role);
+						switch (response.data.role) {
+                        case 'ROLE_USER':
+                            $state.go('main.games');
+                            break;
+                        case 'ROLE_ADMIN':
+                            $state.go('main.home');
+                            break;
+                    }
+
 						sc.user = response.data;
+
 					}, function errorCallback(response) {
 						sc.authFailed = true;
 					});
