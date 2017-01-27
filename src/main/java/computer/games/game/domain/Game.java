@@ -2,7 +2,7 @@ package computer.games.game.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import computer.games.manufacturer.Manufacturer;
-import computer.games.order.Order;
+import computer.games.order.domain.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -71,7 +71,7 @@ public class Game  implements Serializable {
 
     }
 
-    public Game(String name, Long year, String processor, String RAM, String video, Long HDD, Type gameCategory, int price, String image, Set<Order> orders, Manufacturer manufacturer) {
+    public Game(String name, Long year, String processor, String RAM, String video, Long HDD, Type gameCategory, int price, String image, Manufacturer manufacturer) {
         this.name = name;
         this.year = year;
         this.processor = processor;
@@ -81,8 +81,11 @@ public class Game  implements Serializable {
         this.gameCategory = gameCategory;
         this.price = price;
         this.image = image;
-        this.orders = orders;
         this.manufacturer = manufacturer;
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
     }
 
     public Long getId() {
@@ -181,45 +184,6 @@ public class Game  implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Game game = (Game) o;
-
-        if (getPrice() != game.getPrice()) return false;
-        if (!getId().equals(game.getId())) return false;
-        if (getName() != null ? !getName().equals(game.getName()) : game.getName() != null) return false;
-        if (getYear() != null ? !getYear().equals(game.getYear()) : game.getYear() != null) return false;
-        if (getProcessor() != null ? !getProcessor().equals(game.getProcessor()) : game.getProcessor() != null)
-            return false;
-        if (getRAM() != null ? !getRAM().equals(game.getRAM()) : game.getRAM() != null) return false;
-        if (getVideo() != null ? !getVideo().equals(game.getVideo()) : game.getVideo() != null) return false;
-        if (getHDD() != null ? !getHDD().equals(game.getHDD()) : game.getHDD() != null) return false;
-        if (getGameCategory() != game.getGameCategory()) return false;
-        if (getImage() != null ? !getImage().equals(game.getImage()) : game.getImage() != null) return false;
-        if (getOrders() != null ? !getOrders().equals(game.getOrders()) : game.getOrders() != null) return false;
-        return getManufacturer() != null ? getManufacturer().equals(game.getManufacturer()) : game.getManufacturer() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getYear() != null ? getYear().hashCode() : 0);
-        result = 31 * result + (getProcessor() != null ? getProcessor().hashCode() : 0);
-        result = 31 * result + (getRAM() != null ? getRAM().hashCode() : 0);
-        result = 31 * result + (getVideo() != null ? getVideo().hashCode() : 0);
-        result = 31 * result + (getHDD() != null ? getHDD().hashCode() : 0);
-        result = 31 * result + (getGameCategory() != null ? getGameCategory().hashCode() : 0);
-        result = 31 * result + getPrice();
-        result = 31 * result + (getImage() != null ? getImage().hashCode() : 0);
-        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
-        result = 31 * result + (getManufacturer() != null ? getManufacturer().hashCode() : 0);
-        return result;
-    }
 
     @Override
     public String toString() {

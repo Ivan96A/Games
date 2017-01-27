@@ -21,6 +21,6 @@
 			};
 
 			GamesService.getAll().then(succes, failed);
-		};
+		}
  	}
 })();

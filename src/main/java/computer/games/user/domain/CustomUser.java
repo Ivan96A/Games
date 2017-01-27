@@ -1,6 +1,6 @@
 package computer.games.user.domain;
 
-import computer.games.order.Order;
+import computer.games.order.domain.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,6 +46,8 @@ public class CustomUser implements Serializable{
         this.lastName = lastName;
         this.password = password; 
     }
+
+
 
     public Long getId() {
         return id;

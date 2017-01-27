@@ -13,6 +13,10 @@
 
 			this.getById = function(id) {
 				return $http.get(urlBase + '/' + id)
+			};
+
+			this.sentData = function(username) {
+				return $http.post('/order', username);
 			}
 
 		});

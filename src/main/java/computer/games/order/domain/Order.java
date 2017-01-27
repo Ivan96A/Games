@@ -1,4 +1,4 @@
-package computer.games.order;
+package computer.games.order.domain;
 
 import computer.games.game.domain.Game;
 import computer.games.user.domain.CustomUser;
@@ -30,9 +30,12 @@ public class Order implements Serializable {
 
     }
 
-    public Order(CustomUser user, Set<Game> games) {
+    public Order(CustomUser user) {
         this.user = user;
-        this.games = games;
+    }
+
+    public void addGame(Game game) {
+        this.games.add(game);
     }
 
     public Long getId() {
@@ -59,26 +62,6 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        if (!getId().equals(order.getId())) return false;
-        if (getGames() != null ? !getGames().equals(order.getGames()) : order.getGames() != null) return false;
-        return getUser() != null ? getUser().equals(order.getUser()) : order.getUser() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + (getGames() != null ? getGames().hashCode() : 0);
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        return result;
-    }
 
     @Override
     public String toString() {
