@@ -15,8 +15,8 @@
 				return $http.get(urlBase + '/' + id)
 			};
 
-			this.sentData = function(username) {
-				return $http.post('/order', username);
+			this.sentData = function(gameAndUserData) {
+				return $http.post('/order', gameAndUserData);
 			}
 
 		});

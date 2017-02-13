@@ -1,5 +1,6 @@
 package computer.games.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import computer.games.order.domain.Order;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class CustomUser implements Serializable{
     @Column(name = "role")
     private String role;
 
+    @JsonIgnore
     @OneToMany(targetEntity = Order.class, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 

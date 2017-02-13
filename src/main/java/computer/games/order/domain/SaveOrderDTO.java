@@ -3,17 +3,17 @@ package computer.games.order.domain;
 /**
  * Created by Ivan on 27.01.2017.
  */
-public class DataForSaveOrder {
+public class SaveOrderDTO {
 
     private String name;
 
     private String username;
 
-    public DataForSaveOrder () {
+    public SaveOrderDTO() {
 
     }
 
-    public DataForSaveOrder(String name, String username) {
+    public SaveOrderDTO(String name, String username) {
         this.name = name;
         this.username = username;
     }
@@ -39,7 +39,7 @@ public class DataForSaveOrder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DataForSaveOrder that = (DataForSaveOrder) o;
+        SaveOrderDTO that = (SaveOrderDTO) o;
 
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
         return getUsername() != null ? getUsername().equals(that.getUsername()) : that.getUsername() == null;
@@ -55,7 +55,7 @@ public class DataForSaveOrder {
 
     @Override
     public String toString() {
-        return "DataForSaveOrder{" +
+        return "SaveOrderDTO{" +
                 "name='" + name + '\'' +
                 ", username='" + username + '\'' +
                 '}';

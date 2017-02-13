@@ -6,6 +6,7 @@
             'home',
             'games',
             'register',
+            'order',
             'ui.router',
             'ui.bootstrap',
             'ngCookies',

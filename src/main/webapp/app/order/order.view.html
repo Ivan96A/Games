@@ -1,0 +1,24 @@
+
+
+<div class = "container" >
+	<div class = "row">
+		<div class = "col-md-12" >
+			<table class="table table-bordered" ng-init="getOrdersByUsername()">
+					  <tr>
+					    <th>Назва</th>
+					    <th>Ціна</th> 
+					  </tr>
+					  <tr ng-repeat="order in orders">
+					    <td>{{order.name}}</td> 
+					    <td>{{order.price}}  <button type="button" ng-click="removeOrderGame(order.id)" class="btn btn-danger">Видалити</button></td>
+					  </tr>
+			</table>
+
+				<div ng-init="getCost()">
+   						До виплати	 {{cost}}
+				</div>
+
+		</div>
+	</div>
+</div>
+
