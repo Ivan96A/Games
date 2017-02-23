@@ -14,9 +14,9 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("select o from Order o where o.user.id = :id")
-    Order findByUserId(@Param("id") Long id);
+    Order findOrderByUserId(@Param("id") Long id);
 
     @Query("select o.games from Order o where o.user.username = :username")
-    List<Game> findByUsername(@Param("username") String username);
+    List<Game> findOrderGamesByUsername(@Param("username") String username);
 
 }

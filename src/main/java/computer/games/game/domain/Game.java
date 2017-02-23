@@ -184,6 +184,21 @@ public class Game  implements Serializable {
         this.manufacturer = manufacturer;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        return getName() != null ? getName().equals(game.getName()) : game.getName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
+    }
 
     @Override
     public String toString() {

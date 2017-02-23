@@ -11,12 +11,12 @@ import java.util.List;
  */
 public interface OrderService {
 
-    ResponseEntity<Void> save(String gameName, String username);
+    ResponseEntity<Order> save(String gameName, String username);
 
     List<Game> getByUsername(String username);
 
-    Integer getCost(String username);
+    Double getCost(String username);
 
-    void deleteOrderGame(Long id);
+    ResponseEntity<Void> deleteGameFromOrder(Long id);
 
 }

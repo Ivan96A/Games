@@ -39,7 +39,7 @@
 
 		sc.removeOrderGame = function(id) {
 			function success(response) {
-                sc.getOrdersByUsername();
+               // sc.getOrdersByUsername();
             }
 
             function failed(response) {

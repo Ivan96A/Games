@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CustomUser findOneByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findUserByUsername(username);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
         }
         Object principal = authentication.getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
-        CustomUser user = userRepository.findByUsername(userDetails.getUsername());
+        CustomUser user = userRepository.findUserByUsername(userDetails.getUsername());
 
         return new AuthUserDTO(user.getFirstName(), user.getUsername(), user.getRole(), "Success");
     }

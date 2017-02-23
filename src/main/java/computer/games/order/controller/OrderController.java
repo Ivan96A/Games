@@ -1,7 +1,7 @@
 package computer.games.order.controller;
 
 import computer.games.game.domain.Game;
-import computer.games.order.domain.SaveOrderDTO;
+import computer.games.order.domain.OrderDTO;
 import computer.games.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,28 +25,30 @@ public class OrderController {
 
     @RequestMapping(
             method = RequestMethod.POST)
-    public void saveOrder(@RequestBody SaveOrderDTO saveOrderDTO) {
-         orderService.save(saveOrderDTO.getName(), saveOrderDTO.getUsername());
+    public ResponseEntity<Void> saveOrder(@RequestBody OrderDTO orderDTO) {
+         orderService.save(orderDTO.getName(), orderDTO.getUsername());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Game>> getOrders(@PathVariable("username") String username) {
+    public ResponseEntity<List<Game>> getOrderGames(@PathVariable("username") String username) {
            return new ResponseEntity<>(orderService.getByUsername(username), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/cost/{username}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Integer> getCost(@PathVariable("username") String username) {
+    public ResponseEntity<Double> getCost(@PathVariable("username") String username) {
         return new ResponseEntity<>(orderService.getCost(username), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/game/delete/{id}",
                     method = RequestMethod.POST)
-    public void deleteOrderGame(@PathVariable("id") Long id) {
-        orderService.deleteOrderGame(id);
+    public ResponseEntity<Void> deleteGameFromOrder(@PathVariable("id") Long id) {
+        orderService.deleteGameFromOrder(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

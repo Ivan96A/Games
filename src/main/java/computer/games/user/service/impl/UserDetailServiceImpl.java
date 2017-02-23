@@ -30,7 +30,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         LOGGER.info("Init parameters method loadUserByUsername: " + email);
-        CustomUser customUser = userRepository.findByUsername(email);
+        CustomUser customUser = userRepository.findUserByUsername(email);
         User user;
         if (customUser == null) {
             throw new BadCredentialsException(email);

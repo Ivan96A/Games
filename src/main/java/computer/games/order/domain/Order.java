@@ -19,7 +19,7 @@ public class Order implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @ManyToMany(targetEntity = Game.class, mappedBy = "orders")
+    @ManyToMany(targetEntity = Game.class, mappedBy = "orders", cascade = CascadeType.ALL)
     private Set<Game> games = new HashSet<>();
 
     @ManyToOne
@@ -61,7 +61,6 @@ public class Order implements Serializable {
     public void setUser(CustomUser user) {
         this.user = user;
     }
-
 
     @Override
     public String toString() {

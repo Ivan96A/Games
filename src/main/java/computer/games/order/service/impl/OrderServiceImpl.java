@@ -7,20 +7,17 @@ import computer.games.order.repository.OrderRepository;
 import computer.games.order.service.OrderService;
 import computer.games.user.domain.CustomUser;
 import computer.games.user.repository.UserRepository;
-import org.apache.commons.lang.ObjectUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,84 +37,102 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private GameRepository gameRepository;
 
-    private static Order order;
+    private Order order;
 
-    private static int cost;
+    private double cost;
+
+    private Game game;
 
     @Override
-    public ResponseEntity<Void> save(String gameName, String username) {
+    public ResponseEntity<Order> save(String gameName, String username) {
         if (gameName == null) {
             LOG.warn("order could not to be added because gameName is null");
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         if (username == null) {
             LOG.warn("order could not to be added because userName is null");
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        CustomUser user = userRepository.findByUsername(username);
+        CustomUser user = userRepository.findUserByUsername(username);
         if (user == null) {
-            LOG.warn("order could not to be added because user is null");
-            return ResponseEntity.badRequest().build();
+            LOG.warn("order could not to be added because user not found");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Game game = gameRepository.findByName(gameName);
         if (game == null) {
-            LOG.warn("order could not to be added because game is null");
-            return ResponseEntity.badRequest().build();
+            LOG.warn("order could not to be added because game not found");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Order order = buildOrder(user, game);
         orderRepository.save(order);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @Override
     public List<Game> getByUsername(String username) {
-        return orderRepository.findByUsername(username);
+        return orderRepository.findOrderGamesByUsername(username);
     }
 
     @Override
-    public Integer getCost(String username) {
+    public Double getCost(String username) {
         cost = 0;
-
-        List<Game> games = orderRepository.findByUsername(username);
-        for (Game game :
-                games) {
-            cost += game.getPrice();
-        }
-
-        return new Integer(cost);
+        List<Game> games = orderRepository.findOrderGamesByUsername(username);
+        cost = games.stream().mapToDouble(Game::getPrice).sum();
+        return new Double(cost);
     }
 
     @Override
-    public void deleteOrderGame(Long id) {
+    public ResponseEntity<Void> deleteGameFromOrder(Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         String username = auth.getName();
+        System.out.println("user = " + username);
 
-        Set<Game> gameSet = orderRepository.findByUserId(userRepository.findByUsername(username).getId()).
-                getGames().
-                stream().
-                filter((g) -> g.getId() == id).
-                collect(Collectors.toSet());
+        CustomUser user = userRepository.findUserByUsername(username);
+        Order order = orderRepository.findOrderByUserId(user.getId());
+        Set<Order> orders = gameRepository.getOrdersByGameId(id);
+        Set<Game> gameSet = order.getGames();
 
+        if (user == null) {
+            LOG.warn("user not found");
+            return ResponseEntity.badRequest().build();
+        }
+        if (gameSet == null) {
+            LOG.warn("games not found");
+            return ResponseEntity.badRequest().build();
+        }
 
-        orderRepository.findByUserId(userRepository.findByUsername(username).getId()).setGames(gameSet);
+        orders = orders.stream().filter(o -> !o.getId().equals(order.getId())).collect(Collectors.toSet());
+
+        game = gameSet.stream().filter(g -> g.getId().equals(id)).findFirst().get();
+
+        for (Iterator<Game> iterator = gameSet.iterator(); iterator.hasNext(); ) {
+            if (game.getId().equals(id)) {
+                iterator.next().setOrders(orders);
+                iterator.remove();
+                break;
+            }
+            LOG.warn("delete failed");
+        }
+
+        order.setGames(gameSet);
+        orderRepository.save(order);
+        LOG.info("delete success");
+        return ResponseEntity.ok().build();
     }
 
     private Order buildOrder(CustomUser user, Game game) {
-        if (orderRepository.findByUserId(user.getId()) == null) {
+        if (orderRepository.findOrderByUserId(user.getId()) == null) {
             order = new Order();
             order.setUser(user);
-            order.addGame(game);
             game.addOrder(order);
-
+            order.addGame(game);
             return order;
         } else {
-            order = orderRepository.findByUserId(user.getId());
-            order.addGame(game);
+            order = orderRepository.findOrderByUserId(user.getId());
             game.addOrder(order);
-
+            order.addGame(game);
             return order;
         }
     }
