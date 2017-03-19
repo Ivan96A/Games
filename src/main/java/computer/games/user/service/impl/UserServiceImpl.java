@@ -7,6 +7,8 @@ import computer.games.user.repository.UserRepository;
 import computer.games.user.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -33,18 +35,27 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Override
-    public CustomUser findOneByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public ResponseEntity<CustomUser> findOneByUsername(String username) {
+        CustomUser user = userRepository.findUserByUsername(username);
+        if(user == null) {
+            LOGGER.warn("user not found");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @Override
-    public void save(CustomUser user) {
+    public ResponseEntity<Void> save(CustomUser user) {
+        if(user == null) {
+            LOGGER.warn("user is null");
+            return ResponseEntity.badRequest().build();
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         user.setOrders(null);
         userRepository.save(user);
+        return ResponseEntity.ok().build();
     }
 
     @Override

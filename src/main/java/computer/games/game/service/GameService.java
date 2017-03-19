@@ -1,6 +1,7 @@
 package computer.games.game.service;
 
 import computer.games.game.domain.Game;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
  */
 public interface GameService {
 
-    List<Game> getAllGames();
+    ResponseEntity<List<Game>> getAllGames();
 
-    Game getGameById(Long id);
+    ResponseEntity<Game> getGameById(Long id);
 
 }

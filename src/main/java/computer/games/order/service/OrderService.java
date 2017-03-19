@@ -13,9 +13,9 @@ public interface OrderService {
 
     ResponseEntity<Order> save(String gameName, String username);
 
-    List<Game> getByUsername(String username);
+    ResponseEntity<List<Game>> getByUsername(String username);
 
-    Double getCost(String username);
+    ResponseEntity<Double> getCost(String username);
 
     ResponseEntity<Void> deleteGameFromOrder(Long id);
 

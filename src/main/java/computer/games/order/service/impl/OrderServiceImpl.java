@@ -8,6 +8,7 @@ import computer.games.order.service.OrderService;
 import computer.games.user.domain.CustomUser;
 import computer.games.user.repository.UserRepository;
 
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,16 +71,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Game> getByUsername(String username) {
-        return orderRepository.findOrderGamesByUsername(username);
+    public ResponseEntity<List<Game>> getByUsername(String username) {
+        if(username == null) {
+            LOG.warn("username is null");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        List<Game> games = orderRepository.findOrderGamesByUsername(username);
+        if(games == null) {
+            LOG.warn("games not found");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(games, HttpStatus.OK);
     }
 
     @Override
-    public Double getCost(String username) {
+    public ResponseEntity<Double> getCost(String username) {
+        if (username == null) {
+            LOG.warn("username is null");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         cost = 0;
         List<Game> games = orderRepository.findOrderGamesByUsername(username);
+        if (games == null) {
+            LOG.warn("games not found");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         cost = games.stream().mapToDouble(Game::getPrice).sum();
-        return new Double(cost);
+        return new ResponseEntity<>(new Double(cost), HttpStatus.OK);
     }
 
     @Override
@@ -87,7 +105,6 @@ public class OrderServiceImpl implements OrderService {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        System.out.println("user = " + username);
 
         CustomUser user = userRepository.findUserByUsername(username);
         Order order = orderRepository.findOrderByUserId(user.getId());
@@ -113,7 +130,6 @@ public class OrderServiceImpl implements OrderService {
                 iterator.remove();
                 break;
             }
-            LOG.warn("delete failed");
         }
 
         order.setGames(gameSet);

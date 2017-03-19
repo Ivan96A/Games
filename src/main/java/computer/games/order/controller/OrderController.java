@@ -34,14 +34,14 @@ public class OrderController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Game>> getOrderGames(@PathVariable("username") String username) {
-           return new ResponseEntity<>(orderService.getByUsername(username), HttpStatus.OK);
+           return orderService.getByUsername(username);
     }
 
     @RequestMapping(value = "/cost/{username}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Double> getCost(@PathVariable("username") String username) {
-        return new ResponseEntity<>(orderService.getCost(username), HttpStatus.OK);
+        return orderService.getCost(username);
     }
 
     @RequestMapping(value = "/game/delete/{id}",
