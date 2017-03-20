@@ -46,16 +46,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Void> save(CustomUser user) {
+    public ResponseEntity<CustomUser> save(CustomUser user) {
         if(user == null) {
             LOGGER.warn("user is null");
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         user.setOrders(null);
         userRepository.save(user);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @Override

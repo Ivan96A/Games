@@ -12,7 +12,7 @@ public interface UserService {
 
     ResponseEntity<CustomUser> findOneByUsername(String username);
 
-    ResponseEntity<Void> save(CustomUser user);
+    ResponseEntity<CustomUser> save(CustomUser user);
 
     AuthUserDTO authenticateUser(LoginUserDTO loginUserDTO);
 

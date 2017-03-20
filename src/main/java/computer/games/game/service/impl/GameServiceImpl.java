@@ -30,10 +30,17 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseEntity<Game> getGameById(Long id) {
+
         Game game = gameRepository.findOne(id);
-        if(game == null) {
+
+        if (id <= 0) {
+            LOG.warn("id is bad");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (game == null) {
             LOG.warn("game not found");
-            return  new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
