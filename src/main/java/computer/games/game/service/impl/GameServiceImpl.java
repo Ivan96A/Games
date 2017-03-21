@@ -34,7 +34,7 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findOne(id);
 
         if (id <= 0) {
-            LOG.warn("id is bad");
+            LOG.warn("id cannot be less than 1");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

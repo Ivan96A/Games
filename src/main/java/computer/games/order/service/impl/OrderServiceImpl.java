@@ -73,17 +73,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<List<Game>> getByUsername(String username) {
 
-        if(username.isEmpty()) {
+        if (username == null) {
+            LOG.warn("username is null");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        if (username.isEmpty()) {
             LOG.warn("username is empty");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if(username == null) {
-            LOG.warn("username is null");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
         List<Game> games = orderRepository.findOrderGamesByUsername(username);
-        if(games == null) {
+        if (games == null) {
             LOG.warn("games not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -93,15 +94,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<Double> getCost(String username) {
 
-        if(username.isEmpty()) {
-            LOG.warn("username is empty");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         if (username == null) {
             LOG.warn("username is null");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        if (username.isEmpty()) {
+            LOG.warn("username is empty");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         cost = 0;
         List<Game> games = orderRepository.findOrderGamesByUsername(username);
         if (games == null) {
